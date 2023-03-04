@@ -21,7 +21,7 @@ This Python script searches for directories of a given domain name. It does this
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
-4. Clone this repository: `git clone https://github.com/username/repo.git`
+Clone this repository: `git clone https://github.com/username/repo.git`
 
 ## Usage
 
