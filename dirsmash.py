@@ -2,6 +2,12 @@ import requests
 import threading
 import os
 from tqdm import tqdm
+import pyfiglet
+
+result = pyfiglet.figlet_format("DirSmash")
+print(result)
+
+print('				   		   By Aardwolf Security\n\n')
 
 # Define a function to test directories
 def test_directories(domain_name, wordlist, progress, results):
