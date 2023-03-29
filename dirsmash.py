@@ -3,6 +3,8 @@ import threading
 import os
 from tqdm import tqdm
 import pyfiglet
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 result = pyfiglet.figlet_format("DirSmash")
 print(result)
@@ -11,12 +13,18 @@ print('				   		   By Aardwolf Security\n\n')
 
 # Define a function to test directories
 def test_directories(domain_name, wordlist, progress, results):
+    session = requests.Session()
+    retries = Retry(total=3, backoff_factor=1, status_forcelist=[429, 500, 502, 503, 504])
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    
     for word in wordlist:
         url = f"http://{domain_name}/{word}"
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
         try:
-            response = requests.get(url, headers=headers)
-            if response.status_code < 400:
+            response = session.get(url, headers=headers)
+            if response.status_code < 500:
                 results.append(url)
         except:
             pass
